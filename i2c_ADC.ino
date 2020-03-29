@@ -27,7 +27,7 @@ void REG_write(int a,int b){
   Wire.write(b);  // 寫入控制內容
 //  Serial.println(a);
 //  Serial.println(b);
-  Wire.endTransmission();  // Stop I2C Transmission
+  Wire.endTransmission();  /* Stop I2C Transmission*/
 
 }
 
