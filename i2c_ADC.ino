@@ -21,6 +21,16 @@ void setup()
   
 }
 
+void loop()
+{
+  REG_write(0x07,0x80);
+  REG_write(0x08,0x02);
+  REG_read(0x07);
+  REG_write(0x08,0x00);
+  REG_read(0x07); 
+  REG_write(0x07,0x00);
+}
+
 void REG_write(int a,int b){
 
   Wire.beginTransmission(Addr);
@@ -36,6 +46,9 @@ void REG_read(int a){
   
   Wire.beginTransmission(Addr);
   Wire.write(a);  // 進入 暫存器
+
+  Wire.endTransmission();  // Stop I2C Transmission
+  
   Wire.requestFrom(Addr, 1);
 
   if (Wire.available())
@@ -44,17 +57,5 @@ void REG_read(int a){
     Serial.println(data);   //顯示暫存器的內部狀態
   }
  
-  Wire.endTransmission();  // Stop I2C Transmission
-}
-
-void loop()
-{
-  REG_write(0x07,0x80);  // ADRST位元置高
-   REG_read(0x08);       // 讀取暫存器ADCR1的資料狀態 以data顯示
-   
-  delay(1000);
-  REG_write(0x07,0x00);   // ADRST位元置低
-   REG_read(0x08);
- 
-    data=0;
+  
 }
