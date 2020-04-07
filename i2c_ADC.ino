@@ -23,12 +23,27 @@ void setup()
 
 void loop()
 {
-  REG_write(0x07,0x80);
-  REG_write(0x08,0x02);
+  Serial.println("0x00="); 
+  REG_read(0x00);
+  Serial.println("0x01=");
+  REG_read(0x01);
+  Serial.println("0x02=");
+  REG_read(0x02);
+  Serial.println("0x03=");
+  REG_read(0x03);
+  Serial.println("0x04=");
+  REG_read(0x04);
+  Serial.println("0x05=");
+  REG_read(0x05);
+  Serial.println("0x06=");
+  REG_read(0x06);
+  Serial.println("0x07=");
   REG_read(0x07);
-  REG_write(0x08,0x00);
-  REG_read(0x07); 
-  REG_write(0x07,0x00);
+  Serial.println("0x08=");
+  REG_read(0x08);
+  Serial.println("0x09=");
+  REG_read(0x09);
+  
 }
 
 void REG_write(int a,int b){
@@ -57,5 +72,17 @@ void REG_read(int a){
     Serial.println(data);   //顯示暫存器的內部狀態
   }
  
-  
+  Wire.endTransmission();  // Stop I2C Transmission
+}
+
+void loop()
+{
+  REG_write(0x07,0x80);  // ADRST位元置高
+   REG_read(0x08);       // 讀取暫存器ADCR1的資料狀態 以data顯示
+   
+  delay(1000);
+  REG_write(0x07,0x00);   // ADRST位元置低
+   REG_read(0x08);
+ 
+    data=0;
 }
