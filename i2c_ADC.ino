@@ -25,10 +25,17 @@ void loop()
 {/*檢測唯讀暫存器*/
   REG_read(0x04);
   REG_write(0x04,0x02);
+  Serial.println("after write");
+  REG_read(0x04);
   REG_read(0x05);
-  REG_write(0x04,0x02);
+  REG_write(0x05,0x02);
+  Serial.println("after write");
+  REG_read(0x05);
   REG_read(0x06);
-  REG_write(0x04,0x02);  
+  REG_write(0x06,0x02);  
+  Serial.println("after write");
+  REG_read(0x06);
+  Serial.println(" ");
 }
 
 void REG_write(int a,int b){
@@ -53,7 +60,7 @@ void REG_read(int a){
 
   if (Wire.available())
   {
-    Serial.print("value of Reg ");
+    Serial.print("0x0");
     Serial.print(a);
     Serial.print(" = ");
     data = Wire.read();
