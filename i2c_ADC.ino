@@ -14,35 +14,54 @@ void setup()
   REG_write(0x01,0x00); // 2.設定PGAC0   原始設定
   REG_write(0x02,0x00); // 3.設定PGAC1   原始設定
   REG_write(0x09,0x00); // 4.設定ADCS    原始設定
- // REG_write(0x07,0x20); // 5.設定ADCR0   原始設定 設定工作模式
+ // REG_write(0x07,0x80); // 5.設定ADCR0   原始設定 設定工作模式
   REG_write(0x08,0x00); // 5.設定ADCR1   原始設定 控制A/D數據狀態
   REG_write(0x03,0x00); // 6.設定PGACS   原始設定  
-  REG_write(0x07,0x02); // 7.設定ADCR0   00000000 開啟工作模式
+  REG_write(0x07,0x00); // 7.設定ADCR0   00000000 開啟工作模式
   
 }
 
 void loop()
 {
-  Serial.print("0x00="); 
-  REG_read(0x00);
-  Serial.print("0x01=");
-  REG_read(0x01);
-  Serial.print("0x02=");
-  REG_read(0x02);
-  Serial.print("0x03=");
-  REG_read(0x03);
-  Serial.print("0x04=");
-  REG_read(0x04);
-  Serial.print("0x05=");
-  REG_read(0x05);
-  Serial.print("0x06=");
-  REG_read(0x06);
+  Serial.println("----0x07寫入ADRST置低-------");
+  REG_write(0x07,0x00); 
+  REG_read(0x07); // 讀取ADCR0暫存器工作狀態 data應為0 工作模式
   Serial.print("0x07=");
-  REG_read(0x07);
-  Serial.print("0x08=");
+  Serial.println(data);
   REG_read(0x08);
-  Serial.print("0x09=");
-  REG_read(0x09);
+  Serial.print("0x08="); 
+  Serial.println(data);
+  
+  REG_read(0x04);
+  Serial.print("0x04="); 
+  Serial.println(data);
+  REG_read(0x05);
+  Serial.print("0x05="); 
+  Serial.println(data);
+  REG_read(0x06);
+  Serial.print("0x06="); 
+  Serial.println(data);
+  
+  
+  Serial.println("----0x07寫入ADRST置高-------");
+  
+  REG_write(0x07,0x80); // 將ADRST置高 , 進行A/D轉換
+  REG_read(0x07);
+  Serial.print("0x07=");
+  Serial.println(data); // 確認0x07暫存器狀態數值 data應為128
+  REG_read(0x08);
+  Serial.print("0x08="); // 檢測ADCR1中EOC位 data應為2 
+  Serial.println(data);
+
+  REG_read(0x04);
+  Serial.print("0x04="); 
+  Serial.println(data);
+  REG_read(0x05);
+  Serial.print("0x05="); 
+  Serial.println(data);
+  REG_read(0x06);
+  Serial.print("0x06="); 
+  Serial.println(data);
   
 }
 
@@ -69,7 +88,7 @@ void REG_read(int a){
   if (Wire.available())
   {
     data = Wire.read();
-    Serial.println(data);   //顯示暫存器的內部狀態
+  //  Serial.println(data);   //顯示暫存器的內部狀態
   }
  
   
