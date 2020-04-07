@@ -22,13 +22,13 @@ void setup()
 }
 
 void loop()
-{
-  REG_write(0x07,0x80);
-  REG_write(0x08,0x02);
-  REG_read(0x07);
-  REG_write(0x08,0x00);
-  REG_read(0x07); 
-  REG_write(0x07,0x00);
+{/*檢測唯讀暫存器*/
+  REG_read(0x04);
+  REG_write(0x04,0x02);
+  REG_read(0x05);
+  REG_write(0x04,0x02);
+  REG_read(0x06);
+  REG_write(0x04,0x02);  
 }
 
 void REG_write(int a,int b){
@@ -53,6 +53,9 @@ void REG_read(int a){
 
   if (Wire.available())
   {
+    Serial.print("value of Reg ");
+    Serial.print(a);
+    Serial.print(" = ");
     data = Wire.read();
     Serial.println(data);   //顯示暫存器的內部狀態
   }
